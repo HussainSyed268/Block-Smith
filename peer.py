@@ -1,5 +1,3 @@
-# peer1.py and peer2.py
-
 import socket
 import hashlib
 
@@ -12,6 +10,7 @@ class Peer:
         self.port = port
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.has_sent_response = False
+        self.previous_hash = ""
 
     def connect_to_server(self):
         try:
@@ -27,6 +26,7 @@ class Peer:
             print(f"Received problem from server: {problem_message}")
             # Extract previous hash and difficulty from problem message
             previous_hash, difficulty = self.extract_problem_info(problem_message)
+            self.previous_hash = previous_hash
             # Calculate nonce value and next hash
             nonce = 0
             while True:
@@ -57,6 +57,47 @@ class Peer:
         except Exception as e:
             print(f"Error occurred while sending hash and nonce to server: {e}")
 
+    def send_acknowledgment(self, acknowledgment):
+        try:
+            self.server_socket.send(acknowledgment.encode())
+        except Exception as e:
+            print(f"Error occurred while sending acknowledgment to server: {e}")
+
+    def receive_solution(self):
+        try:
+            # Receive solution message from server
+            solution_message = self.server_socket.recv(1024).decode()
+            print(f"Received solution from server: {solution_message}")
+
+            # Extract peer ID and solution content from the solution message
+            parts = solution_message.split(": ", 1)
+            if len(parts) == 2:
+                peer_id = parts[0].split()[1]
+                solution_content = parts[1]
+
+                # Parse solution content
+                try:
+                    hash_str, nonce_str = solution_content.strip().strip("[]").split(", ")
+                    provided_hash = hash_str.strip("'")
+                    provided_nonce = int(nonce_str)
+                except ValueError:
+                    print("Invalid solution message format.")
+                    return
+
+                # Validate the solution
+                hash_result = hashlib.sha256((self.previous_hash + str(provided_nonce)).encode()).hexdigest()
+                if hash_result == provided_hash:
+                    print(f"Solution received from peer {peer_id} is valid")
+                    acknowledgment = "valid"
+                else:
+                    print("Received solution is invalid.")
+                    acknowledgment = "invalid"
+                self.send_acknowledgment(acknowledgment)
+            else:
+                print("Invalid solution message format.")
+        except Exception as e:
+            print(f"Error occurred while receiving solution: {e}")
+
     def close_connection(self):
         self.server_socket.close()
 
@@ -65,6 +106,7 @@ def main():
     peer = Peer('localhost', PEER_PORT)
     peer.connect_to_server()
     peer.solve_problem_and_send_answer()
+    peer.receive_solution()
     peer.close_connection()
 
 

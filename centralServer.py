@@ -1,18 +1,60 @@
 import socket
 import threading
 import hashlib
+import time
+import json
+from Blockchainbasic import Block, Blockchain
 
 SERVER_PORT = 8888
 DIFFICULTY = 5  # Number of leading zeros in the hash
 
+transactions = [
+     {
+        "transaction_id": 5,
+        "timestamp": "2024-05-04T12:40:00",
+        "type": "transfer",
+        "sender": "Eve",
+        "recipient": "Frank",
+        "amount": 9
+    },
+    {
+        "transaction_id": 6,
+        "timestamp": "2024-05-04T12:50:00",
+        "type": "transfer",
+        "sender": "Frank",
+        "recipient": "George",
+        "amount": 4
+    },
+    {
+        "transaction_id": 7,
+        "timestamp": "2024-05-04T13:00:00",
+        "type": "transfer",
+        "sender": "George",
+        "recipient": "Helen",
+        "amount": 11
+    },
+    {
+        "transaction_id": 8,
+        "timestamp": "2024-05-04T13:10:00",
+        "type": "transfer",
+        "sender": "Helen",
+        "recipient": "Ian",
+        "amount": 6
+    },
+]
+
+
 class CentralServer:
     def __init__(self, host, port):
+        self.blockchain = Blockchain.get_instance()
         self.host = host
         self.port = port
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.peer_id_counter = 1
         self.peer_connections = {}
         self.previous_hash = ""
+        self.current_hash = ""
+        self.current_nonce = 0
         self.difficulty = DIFFICULTY  # Difficulty level
         self.problem_broadcast_thread = threading.Thread(target=self.listen_for_broadcast)
         self.solution_received = False  # Flag to track if solution received
@@ -48,9 +90,13 @@ class CentralServer:
                     self.broadcast_problem()
 
     def broadcast_problem(self):
+
+        transactions_json = json.dumps(transactions, sort_keys=True)
+
+
         try:
-            self.previous_hash = hashlib.sha256(b'first_block').hexdigest()
-            problem_message = f"Problem: Previous hash is {self.previous_hash}, Difficulty is {self.difficulty}"
+            self.previous_hash = self.blockchain.getLastBlockHash()
+            problem_message = f"Problem: Previous hash is {self.previous_hash}, Difficulty is {self.difficulty}, and the transactions are:\n{transactions_json}"
             print(f"Broadcasting problem to all peers: {problem_message}")
             for peer_id, client_socket in self.peer_connections.items():
                 client_socket.send(problem_message.encode())
@@ -69,7 +115,7 @@ class CentralServer:
                     self.broadcast_solution(peer_id, data)
                     self.solving_peer = peer_id
                 elif data.lower() in ["valid", "invalid"]:
-                    self.handle_acknowledgment(data.lower(),self.solving_peer)
+                    self.handle_acknowledgment(data.lower(), self.solving_peer)
         except Exception as e:
             print(f"Error occurred while handling peer {peer_id}: {e}")
         finally:
@@ -79,9 +125,10 @@ class CentralServer:
         try:
             parts = solution.split(", ")
             provided_hash = parts[0].split(": ")[1]
+            self.current_hash = provided_hash
             provided_nonce = int(parts[1].split(": ")[1])
+            self.current_nonce = provided_nonce
             solution_array = [provided_hash, provided_nonce]
-
             for p_id, p_socket in self.peer_connections.items():
                 if p_id != peer_id:
                     p_socket.send(f"Peer {peer_id} solved: {solution_array}".encode())
@@ -93,9 +140,16 @@ class CentralServer:
             self.valid_solution_count += 1
         elif acknowledgment == "invalid":
             pass  # No need to do anything for invalid solutions
-
         if self.valid_solution_count == self.expected_valid_count:
             print(f"Solution accepted by the peer {peer_id}")
+            self.blockchain.add_block(
+                transactions,
+                self.current_nonce,
+                self.current_hash,
+                peer_id
+            )
+            print(f"Block added for {peer_id}.")
+            self.blockchain.print_chain()
         else:
             print("Solution discarded due to invalidity")
 
@@ -103,6 +157,8 @@ class CentralServer:
 def main():
     central_server = CentralServer('localhost', SERVER_PORT)
     central_server.start()
+    central_server.blockchain.print_chain()
+
 
 if __name__ == "__main__":
     main()

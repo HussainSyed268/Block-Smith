@@ -1,7 +1,7 @@
 import socket
 import hashlib
 
-PEER_PORT = 9999  # for peer1.py
+PEER_PORT = 9998  # for peer1.py
 # PEER_PORT = 9998  # for peer2.py
 
 class Peer:
@@ -11,7 +11,7 @@ class Peer:
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.has_sent_response = False
         self.previous_hash = ""
-        self.transaction = ""
+        self.transaction = b""
 
     def connect_to_server(self):
         try:
@@ -28,6 +28,7 @@ class Peer:
             # Extract previous hash and difficulty from problem message
             previous_hash, difficulty, transactions = self.extract_problem_info(problem_message)
             self.previous_hash = previous_hash
+            self.transaction = transactions
 
             # Calculate nonce value and next hash
             nonce = 0
@@ -43,7 +44,6 @@ class Peer:
                         self.has_sent_response = True
                     break
                 nonce += 1
-            self.transaction = str(transactions_binary)
         except Exception as e:
             print(f"Error occurred while solving problem and sending answer: {e}")
 
@@ -91,8 +91,8 @@ class Peer:
                     return
 
                 # Validate the solution
-                hash_result = hashlib.sha256((self.previous_hash + str(provided_nonce) + self.transaction).encode()).hexdigest()
-                print("the hash to verify",hash_result)
+                hash_result = hashlib.sha256((self.previous_hash + str(provided_nonce) + str(self.transaction)).encode()).hexdigest()
+                print("the hash to verify", hash_result)
                 if hash_result == provided_hash:
                     print(f"Solution received from peer {peer_id} is valid")
                     acknowledgment = "valid"

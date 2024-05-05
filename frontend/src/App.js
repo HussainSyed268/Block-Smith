@@ -1,12 +1,23 @@
 import './App.css';
 import Nav from './components/Navbar';
-import LogIn from './pages/LogIn';
-import SignUp from './pages/SignUp';
+import HomeSection from './components/HomeSection';
+import ParticleBackground from './ParticleBackground';
+import Advantage from './components/Advantages';
+import Bux from './components/Bux';
+import Works from './components/Works';
+import Footer from './components/Footer';
+
 
 function App() {
   return (
     <div className="App">
-     <SignUp/>
+    <ParticleBackground id="particles" />
+    <Nav/>
+    <HomeSection/>
+    <Advantage/>
+    <Bux/>
+    <Works/>
+    <Footer/>
     </div>
   );
 }

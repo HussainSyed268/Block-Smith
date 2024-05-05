@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../assests/logo.png";
 
 export default function Nav() {
+    
     const [isOpen, setIsOpen] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
 

@@ -1,13 +1,30 @@
-import './App.css';
-import Nav from './components/Navbar';
-import LogIn from './pages/LogIn';
-import SignUp from './pages/SignUp';
+// App.js
+import React from 'react';
+import { AuthProvider } from './auth/AuthProvider';
+import LoginComponent from './pages/LogIn';
+import SignupComponent from './pages/SignUp';
+import HomeComponent from './pages/Home';
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-     <SignUp/>
-    </div>
+      <AuthProvider>
+        <Router>
+        <Routes>
+          <Route path="/login" element={<LoginComponent/>}>
+          </Route>
+          <Route path="/home" element={<HomeComponent/>}>
+          </Route>
+          <Route path="/signup" element={<SignupComponent/>}>
+          </Route>
+          </Routes>
+        </Router>
+      </AuthProvider>
   );
 }
 

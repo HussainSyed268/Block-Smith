@@ -1,46 +1,23 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
-from django.contrib.auth import get_user_model
-from .serializer import UserCreateSerializer
-from django.http import HttpResponse
-from backend.db_connection import db, collection
-from django.views.decorators.csrf import ensure_csrf_cookie
-import json
+from rest_framework import permissions,status
+from .serializers import UserCreateSerializer,UserSerializer
 
 
+class Register(APIView):
+    def post(self,request):
+        data = request.data
+        serializer = UserCreateSerializer(data=data)
+        if not serializer.is_valid():
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        user = serializer.create(serializer.validated_data)
+        user = UserSerializer(user)
+        return Response(user.data,status=status.HTTP_201_CREATED)
 
-User = get_user_model()
-
-@ensure_csrf_cookie
-def index(request):
-    return HttpResponse("Hello, world. You're at the users index.")
-
-@ensure_csrf_cookie
-def test(request):
-    if request.method == 'POST':
-        return HttpResponse("Hello, world. You're at the users test.")
-    
-@ensure_csrf_cookie
-def register(request):
-    if request.method == 'POST':
-        data = request.body.decode('utf-8')
-        data = json.loads(data)  
-        print(data) 
-        name = data['name']
-        phone = data['phone']
-        email = data['email']
-        password = data['password']
-        print(data)
-        collection.insert_one({
-            "name": name,
-            "phone": phone,
-            "email": email,
-            "password": password
-        })
-        # user = User.objects.create_user(name, phone, email, password)
-        # user.UserCreateSerializer(user)
-
-        return HttpResponse("User created successfully")
-    
+class GetUser(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self,request):
+        user = request.user
+        user = UserSerializer(user)
+        return Response(user.data,status=status.HTTP_200_OK)
 

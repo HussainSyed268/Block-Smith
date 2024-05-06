@@ -12,10 +12,16 @@
     "@tsparticles/react": "^3.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+
+    "react-router-dom": "^6.23.0",
+    "react-scripts": "5.0.1",
+    "recoil": "^0.7.7",
+
     "react-icons": "^5.2.0",
     "react-particles": "^2.12.2",
     "react-player": "^2.16.0",
     "react-scripts": "^5.0.1",
+
     "web-vitals": "^2.1.4"
   },
   "scripts": {

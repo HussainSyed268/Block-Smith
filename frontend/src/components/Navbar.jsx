@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 
+export default function Nav() {
+    
+    const [isOpen, setIsOpen] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
 export default function Navbar() {
     return(

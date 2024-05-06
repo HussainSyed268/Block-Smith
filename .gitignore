@@ -1,0 +1,4 @@
+
+/node_modules
+/backend/blocksmith/__pycache__
+/backend/venv

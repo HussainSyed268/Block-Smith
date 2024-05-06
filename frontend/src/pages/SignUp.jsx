@@ -1,7 +1,6 @@
 import React from 'react';
 import LogIn from './LogIn';
 import logo from "../assests/logo.png";
-import { useRef } from 'react';
 
 
 export default function SignUp(){

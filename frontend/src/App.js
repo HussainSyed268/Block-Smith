@@ -1,3 +1,4 @@
+
 // App.js
 import React from 'react';
 import { AuthProvider } from './auth/AuthProvider';
@@ -25,7 +26,6 @@ function App() {
           </Routes>
         </Router>
       </AuthProvider>
-  );
-}
+
 
 export default App;

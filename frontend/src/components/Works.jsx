@@ -11,7 +11,7 @@ export default function Works() {
         <>
         <div className='mb-32'>
             <div className="font-roboto">
-                <h1 className="text-white text-4xl text center font-semibold mb-6">
+                <h1 className="text-white text-4xl text-center font-semibold mb-6">
                     How it works?    
                 </h1>    
                 <p className="text-gray-300 text-base text-center w-96 m-auto">
@@ -26,11 +26,11 @@ export default function Works() {
                 </div>
 
             <div className="flex flex-row mt-16 items-center relative ">
-                    <div className="w-1/4 flex flex-col justify-center  items-center">
+                    <div className="w-1/4 flex flex-col justify-center items-center">
                         <img className="h-52" src={Lock} alt = "lock" /> 
                         <div>
                             <p className='text-gray-300 text-sm m-auto font-medium w-16'>Step 1</p>
-                            <h1 className='text-white text-2xl font-semibold my-6'>Sign Up</h1>
+                            <h1 className='text-white text-2xl text-center font-semibold my-6 relative right-2'>  Sign Up  </h1>
                             <p className='text-gray-300 text-sm m-auto font-medium w-full px-16'>
                                 Create an account to start investing in digital currency today and secure your future.
                             </p>
@@ -40,7 +40,7 @@ export default function Works() {
                         <img className="h-44" src={Locker} alt = "locker" /> 
                         <div className='relative top-2'>
                             <p className='text-gray-300 text-sm m-auto font-medium w-16'>Step 2</p>
-                            <h1 className='text-white text-2xl font-semibold my-6'>Connect Wallet</h1>
+                            <h1 className='text-white text-2xl text-center font-semibold my-6'>Connect Wallet</h1>
                             <p className='text-gray-300 text-sm m-auto font-medium w-full px-16'>
                                 Connect your wallet to your account and start investing in digital currency today.
                             </p>
@@ -50,7 +50,7 @@ export default function Works() {
                         <img className="h-52 relative bottom-4" src={Piggy} alt = "lock" /> 
                         <div>
                             <p className='text-gray-300 text-sm m-auto font-medium w-16 '>Step 3</p>
-                            <h1 className='text-white text-2xl font-semibold my-6'>Start Mining</h1>
+                            <h1 className='text-white text-2xl text-center font-semibold my-6'>Start Mining</h1>
                             <p className='text-gray-300 text-sm m-auto font-medium w-full px-16'>
                                 Start mining digital currency today and secure your future with BlockSmith.
                             </p>
@@ -60,7 +60,7 @@ export default function Works() {
                         <img className="h-44" src={Bag} alt = "lock" /> 
                         <div>
                             <p className='text-gray-300 text-sm m-auto font-medium w-16'>Step 4</p>
-                            <h1 className='text-white text-2xl font-semibold my-6'>Earn Money</h1>
+                            <h1 className='text-white text-2xl text-center font-semibold my-6'>Earn Money</h1>
                             <p className='text-gray-300 text-sm m-auto font-medium w-full px-16'>
                                 Earn money by investing in digital currency and secure your future with BlockSmith.
                             </p>

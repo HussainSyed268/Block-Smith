@@ -4,11 +4,9 @@ export default function Nav() {
     
     const [isOpen, setIsOpen] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
-
-export default function Navbar() {
     return(
     <>
-        <nav className=" flex text-gray-300 font-roboto justify-between">
+        <nav className=" flex text-gray-300 font-roboto justify-between h-[7rem]">
             <div className=" my-10 mx-14 font-semibold text-base">
                 <a href="#" className="px-4 hover:text-red-600 transition-all" >Home</a>
                 <a href="#" className="px-4 hover:text-red-600 transition-all" >Why Blocksmith</a>

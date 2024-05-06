@@ -5,6 +5,9 @@ import { AuthProvider } from './auth/AuthProvider';
 import LoginComponent from './pages/LogIn';
 import SignupComponent from './pages/SignUp';
 import HomeComponent from './pages/Home';
+import Layout from './layout';
+import ParticleBackground from './ParticleBackground';
+import './App.css';
 
 import {
   BrowserRouter as Router,
@@ -14,6 +17,9 @@ import {
 
 function App() {
   return (
+    <>
+    <ParticleBackground id="particles"/>
+    <Layout>
       <AuthProvider>
         <Router>
         <Routes>
@@ -26,6 +32,11 @@ function App() {
           </Routes>
         </Router>
       </AuthProvider>
+      </Layout>
+      </>
+
+  )
+}
 
 
 export default App;

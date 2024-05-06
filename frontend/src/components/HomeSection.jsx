@@ -4,8 +4,8 @@ import illustration from "../assests/home/file.png";
 export default function HomeSection() {
     return(
         <>
-        <div className="flex flex-row mt-24 mx-32 justify-between ">
-            <div className="w-2/5 relative left-10 top-10" >
+        <div className="flex flex-row mt-24 mx-32 justify-around mb-24">
+            <div className="w-3/6 ml-[10rem]" >
             <h1 className=" text-6xl text-white font-semibold text-left ">
             Your Premier Blacksmith for Mining Needs & Exclusive Coin, Bux!
             </h1>
@@ -14,8 +14,10 @@ export default function HomeSection() {
             </p>
             <button className="bg-red-600 text-white px-4 py-2 rounded-xl font-semibold ">Get Started</button>
         </div>
-            <div className="">
-                <img className="w-3/6 relative left-64 bottom-8" src={illustration} alt="illustration" />
+            <div className="flex justify-end mr-[10rem] items-center w-3/6">
+                
+                    <img className="w-[30rem]  bottom-8" src={illustration} alt="illustration" />
+
             </div>
         </div>
         <div className="flex justify-center">

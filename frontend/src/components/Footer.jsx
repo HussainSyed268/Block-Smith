@@ -5,7 +5,7 @@ export default function Footer() {
 
     return(
         <>
-            <div className="flex mt-32 font-roboto bg-zinc-800">
+            <div className="flex h-[13.1rem] font-roboto bg-zinc-800">
                 <div className=" w-1/5 text-left ">
                     <h1 className="text-white text-3xl font-semibold my-10 pl-16">
                         BlockSmith
@@ -45,12 +45,6 @@ export default function Footer() {
                     <p className="w-full text-gray-300 text-sm font-medium px-16 my-4">
                         Communication
                     </p>
-                    <p className="w-full text-gray-300 text-sm font-medium px-16 my-4">
-                        Support
-                    </p>
-                    <p className="w-full text-gray-300 text-sm font-medium px-16 my-4">
-                        Video Showcase
-                    </p>
                 </div>
                 <div className="w-1/5 text-left">
                     <h1 className="text-white text-xl font-semibold mt-8 mb-4 pl-16">
@@ -76,15 +70,7 @@ export default function Footer() {
                     <p className="w-full text-gray-300 text-sm font-medium px-16 my-4">
                         Press
                     </p>
-                    <h1 className="text-white text-xl font-semibold mt-8 mb-4 pl-16">
-                        Legal
-                    </h1>
-                    <p className="w-full text-gray-300 text-sm font-medium px-16 my-4">
-                        Terms and conditions
-                    </p>
-                    <p className="w-full text-gray-300 text-sm font-medium px-16 my-4">
-                        Privacy Policy
-                    </p>
+
                 </div>
             </div>
         </>

@@ -60,4 +60,4 @@ if __name__ == '__main__':
     transactions2 = ["Transaction 5", "Transaction 4"]
     blockchain.add_block(transactions1)
     blockchain.add_block(transactions2)
-    blockchain.print_chain()
+    # blockchain.print_chain()

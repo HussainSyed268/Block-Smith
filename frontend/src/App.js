@@ -8,6 +8,11 @@ import HomeComponent from './pages/Home';
 import Layout from './layout';
 import ParticleBackground from './ParticleBackground';
 import './App.css';
+import UserDashboard from './components/UserDashboard';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Bitcoin from './pages/Bitcoin';
+
 
 import {
   BrowserRouter as Router,
@@ -18,8 +23,9 @@ import {
 function App() {
   return (
     <>
+    
+    {/* <Layout>
     <ParticleBackground id="particles"/>
-    <Layout>
       <AuthProvider>
         <Router>
         <Routes>
@@ -29,10 +35,16 @@ function App() {
           </Route>
           <Route path="/signup" element={<SignupComponent/>}>
           </Route>
+          <Route path="/dashboard" element={<UserDashboard/>}>
+          </Route>
           </Routes>
         </Router>
       </AuthProvider>
-      </Layout>
+     
+      </Layout>  */}
+
+      <Bitcoin/>
+      
       </>
 
   )

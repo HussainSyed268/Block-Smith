@@ -1,0 +1,38 @@
+.chain-link {
+    height: 27px;
+    width: 40px;
+    border: 5px solid #555;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    float: left;
+    margin-left: 2px; /* Adjust the margin-left as needed */
+  }
+  
+  .chain-link:after {
+    content: "";
+    display: block;
+    border: 2px solid white;
+    height: 8px;
+    width: 30px;
+    background: #555;
+    position: absolute;
+    margin-left: 21px; /* Adjust the margin-left as needed */
+    margin-top: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+  }
+  
+  .chain-end {
+    height: 27px;
+    width: 40px;
+    border: 5px solid #555;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    float: left;
+    margin-left: 2px; /* Adjust the margin-left as needed */
+  }
+  
+  .bend {
+    margin-left: 2rem;
+  }
+  

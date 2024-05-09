@@ -7,6 +7,8 @@ import SignupComponent from './pages/SignUp';
 import HomeComponent from './pages/Home';
 import Layout from './layout';
 import ParticleBackground from './ParticleBackground';
+import Networking from './pages/Network';
+import Mining from './pages/Mining';
 import './App.css';
 
 import {
@@ -28,6 +30,10 @@ function App() {
           <Route path="/home" element={<HomeComponent/>}>
           </Route>
           <Route path="/signup" element={<SignupComponent/>}>
+          </Route>
+          <Route path="/network" element={<Networking/>}>
+          </Route>
+          <Route path="/mining" element={<Mining/>}>
           </Route>
           </Routes>
         </Router>

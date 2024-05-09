@@ -1,5 +1,7 @@
 
 /backend/venv
+/backend/blocksmith/__pycache__
+/frontend/node_modules
 backend/blocksmith/__pycache__/__init__.cpython-311.pyc
 backend/blocksmith/__pycache__/
 /node_modules

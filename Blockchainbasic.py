@@ -2,31 +2,37 @@ import hashlib
 import time
 
 class Block:
-    def __init__(self, index, previous_hash, timestamp, transactions, hash, nonce):
+    def __init__(self, index, previous_hash, timestamp, transactions, hash, peer_id, nonce):
         self.index = index
         self.previous_hash = previous_hash
         self.timestamp = timestamp
         self.transactions = transactions
         self.hash = hash
         self.nonce = nonce
+        self.peer_id = peer_id
 
 class Blockchain:
+    instance = None
+
+    @classmethod
+    def get_instance(cls):
+        if cls.instance is None:
+            cls.instance = cls()
+        return cls.instance
     def __init__(self):
         self.chain = []
         self.create_genesis_block()
 
     def create_genesis_block(self):
-        genesis_block = Block(0, "0", int(time.time()), [], self.calculate_hash(0, "0", int(time.time()), [], 0), 0)
+        genesis_block = Block(0, "0", int(time.time()), [], self.calculate_hash(0, "0", int(time.time()), [], 0), 0, 0)
         self.chain.append(genesis_block)
 
-    def add_block(self, transactions):
+    def add_block(self, transactions, nonce, hash, peerID):
         previous_block = self.chain[-1]
         index = previous_block.index + 1
         timestamp = int(time.time())
         previous_hash = previous_block.hash
-        nonce = self.proof_of_work(index, previous_hash, timestamp, transactions)
-        new_hash = self.calculate_hash(index, previous_hash, timestamp, transactions, nonce)
-        new_block = Block(index, previous_hash, timestamp, transactions, new_hash, nonce)
+        new_block = Block(index, previous_hash, timestamp, transactions, hash, peerID, nonce)
         self.chain.append(new_block)
 
     def proof_of_work(self, index, previous_hash, timestamp, transactions):
@@ -44,6 +50,9 @@ class Blockchain:
     def print_chain(self):
         for block in self.chain:
             print(vars(block))
+
+    def getLastBlockHash(self):
+        return self.chain[-1].hash
 
 if __name__ == '__main__':
     blockchain = Blockchain()

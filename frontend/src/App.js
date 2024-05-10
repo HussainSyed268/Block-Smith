@@ -11,7 +11,7 @@ import './App.css';
 import UserDashboard from './components/UserDashboard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Bitcoin from './pages/Bitcoin';
+// import Bitcoin from './pages/Bitcoin';
 
 
 import {
@@ -24,7 +24,7 @@ function App() {
   return (
     <>
     
-    {/* <Layout>
+    <Layout>
     <ParticleBackground id="particles"/>
       <AuthProvider>
         <Router>
@@ -41,9 +41,9 @@ function App() {
         </Router>
       </AuthProvider>
      
-      </Layout>  */}
+      </Layout> 
 
-      <Bitcoin/>
+      {/* <Bitcoin/> */}
       
       </>
 

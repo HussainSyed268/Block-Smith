@@ -1,7 +1,7 @@
 import React from 'react'
 import pfp from '../assests/no-profile-picture.png'
 import DashBoardCard from './DashBoardCard'
-import Transactions from './Transactions'
+import Transactions from './DashboardTransactions'
 
 export default function Dashboard() {
     return (

@@ -8,3 +8,4 @@ backend/blocksmith/__pycache__/
 /node_modules
 /backend/blocksmith/__pycache__
 /backend/venv
+/backend/node_modules

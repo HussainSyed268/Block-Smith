@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import server from "../assests/server.png"
 import node from "../assests/lcd.png"
+import Sock from "../components/Socket";
 
 const Networking = () => {
   const graphRef = useRef(null);
@@ -26,6 +27,7 @@ const Networking = () => {
 
   return (
     <>
+    <Sock/>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Button variant="contained" onClick={addNode}>

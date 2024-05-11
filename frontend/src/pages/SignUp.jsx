@@ -1,13 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 import LogIn from './LogIn';
 import logo from "../assests/logo.png";
+import axios from 'axios';
 
 
 export default function SignUp(){
+    const [values, setValues] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: ''
+    });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try { 
+            const {data} = await axios.post('http://localhost:5000/api/auth/register', {... values});
+            console.log(data);
+            if(data.created){
+                alert('User created successfully');
+            } 
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-                <form className="w-full max-w-md">
+                <form onSubmit={(e)=> handleSubmit(e)} className="w-full max-w-md">
                     <div className="flex justify-center mx-auto">
                         <img className="w-auto h-7 sm:h-16" src={logo} alt=""/>
                     </div>
@@ -26,7 +50,9 @@ export default function SignUp(){
                             </svg>
                         </span>
 
-                        <input type="text" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Name"/>
+                        <input type="text" name='name' className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Name" onChange={(e)=>
+                            setValues({...values, [e.target.name]: e.target.value })
+                        }/>
                     </div>
 
                     <div className="relative flex items-center mt-6">
@@ -36,7 +62,9 @@ export default function SignUp(){
                             </svg>
                         </span>
 
-                        <input type="text" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Phone Number"/>
+                        <input type="text" name='phone' className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Phone Number" onChange={(e)=>
+                            setValues({...values, [e.target.name]: e.target.value })
+                        }/>
                     </div>
 
                     <div className="relative flex items-center mt-6">
@@ -46,7 +74,9 @@ export default function SignUp(){
                             </svg>
                         </span>
 
-                        <input type="email" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address"/>
+                        <input type="email" name='email' className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" onChange={(e)=>
+                            setValues({...values, [e.target.name]: e.target.value })
+                        }/>
                     </div>
 
                     <div className="relative flex items-center mt-6">
@@ -56,7 +86,9 @@ export default function SignUp(){
                             </svg>
                         </span>
 
-                        <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password"/>
+                        <input type="password" name='password' className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" onChange={(e)=>
+                            setValues({...values, [e.target.name]: e.target.value })
+                        }/>
                     </div>
 
                     <div className="relative flex items-center mt-6">
@@ -66,17 +98,19 @@ export default function SignUp(){
                             </svg>
                         </span>
 
-                        <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Confirm Password"/>
+                        <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Confirm Password" onChange={(e)=>
+                            setValues({...values, [e.target.name]: e.target.value })
+                        }/>
                     </div>
 
                     <div className="mt-6">
-                        <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                        <button type='submit' className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                             Sign Up
                         </button>
 
                         <div className="mt-6 text-center ">
                             <a href={LogIn} className="text-sm text-blue-500 hover: cursor-pointer dark:text-blue-400">
-                                Already have an account?
+                                Already have an account? <Link to="/login">Log In</Link>
                             </a>
                         </div>
                     </div>

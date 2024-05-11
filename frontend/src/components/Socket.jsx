@@ -19,8 +19,7 @@ const Peer = () => {
     while (true) {
       const hash = calculateHash(previousHash, transactions, nonce);
       if (hash.substring(0, difficulty) === '0'.repeat(difficulty)) {
-        console.log("Solution found:", hash);
-        return { previousHash, transactions, difficulty, nonce };
+        return { hash, nonce };
       }
       nonce++;
     }
@@ -29,7 +28,6 @@ const Peer = () => {
   const calculateHash = (previousHash, transactions, nonce) => {
     const data = previousHash + JSON.stringify(transactions) + nonce;
     const sha256 = SHA256(data).toString(enc.Hex);
-
     return sha256;
   };
 
@@ -40,10 +38,9 @@ const Peer = () => {
     if (!socket) return;
 
     socket.on("problem", (problemMessage) => {
-      console.log("Received problem:", problemMessage);
-      // Solve problem and send solution
       const { previousHash, transactions, difficulty } = problemMessage;
       const solution = calculateSolution(previousHash, transactions, difficulty);
+      console.log("Sending solution:", solution);
       sendSolution(solution);
     });
 

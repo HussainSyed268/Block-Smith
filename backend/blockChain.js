@@ -1,4 +1,5 @@
-const crypto = require('crypto');
+const { SHA256 } = require("crypto-js");
+const { enc } = require("crypto-js");
 
 class Block {
     constructor(index, previousHash, timestamp, transactions, hash, peerId, nonce) {
@@ -52,8 +53,10 @@ class Blockchain {
     }
 
     calculateHash(index, previousHash, timestamp, transactions, nonce) {
-        const value = `${index}${previousHash}${timestamp}${JSON.stringify(transactions)}${nonce}`;
-        return crypto.createHash('sha256').update(value).digest('hex');
+        const data = previousHash + JSON.stringify(transactions) + nonce;
+        const sha256 = SHA256(data).toString(enc.Hex);
+        console.log(sha256);
+        return sha256;
     }
 
     printChain() {

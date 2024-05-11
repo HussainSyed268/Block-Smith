@@ -58,14 +58,15 @@ io.on("connection", (socket) => {
 //   });
 
   socket.on("solution", (solution) => {
-    console.log("Received solution:", solution);
-    const { previousHash, transactions, difficulty, nonce } = solution;
-    const hash = blockchain.calculateHash(previousHash, transactions, nonce);
+    const { newHash, nonce } = solution;
+    if (newHash == blockchain.calculateHash(previousHash, transactions, nonce)){
 
     if (hash.substring(0, difficulty) === '0'.repeat(difficulty)) {
       console.log("Solution is valid.");
       blockchain.addBlock(transactions, nonce, hash, socket.id);
     } else {
+      console.log("Solution is invalid.");
+    }} else {
       console.log("Solution is invalid.");
     }
   });

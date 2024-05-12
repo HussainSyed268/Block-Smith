@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:8000/api/token/', {
+      const response = await fetch('http://localhost:4000/auth/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

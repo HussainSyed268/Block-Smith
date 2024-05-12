@@ -10,6 +10,8 @@ import ParticleBackground from './ParticleBackground';
 import Networking from './pages/Network';
 import Mining from './pages/Mining';
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 import {
   BrowserRouter as Router,

@@ -1,45 +1,60 @@
 import React, { useState } from 'react';
 import logo from "../assests/logo.png";
-import { useAuth } from '../auth/AuthProvider';
+// import { useAuth } from '../auth/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
+import {toast, ToastContainer} from 'react-toastify';
 
 
 
 export default function LogIn() {
-  const { user } = useAuth();
-
   const navigate = useNavigate();
+  const [values, setValues] = useState({
+      email: '',
+      password: '',
+  });
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  const { login } = useAuth();
+  const generateError = (err) => {
+      toast.error(err, {
+          position: "bottom-right",
+      });
+  }
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await login(email, password);
-      // Redirect or show success message
-    navigate('/login');
-
-    } catch (error) {
-      console.error('Login error:', error);
-      // Handle login error, show error message to user, etc.
-    }
-  };
-
-  if (user) {
-    navigate('/home');
-    return null; // Render nothing while redirecting
+      e.preventDefault();
+      try { 
+          const { data } = await axios.post('http://localhost:4000/api/auth/login', {
+          email: values.email,
+          password: values.password,
+      }, {
+          withCredentials: true // Enable sending and receiving cookies
+      });
+      navigate('/home');
+      
+  } catch (error) {
+      {console.log(error)}
+      if (error.response) {
+          const responseData = error.response.data;
+          if (responseData.errors) {
+              const { email, password, name, phone } = responseData.errors;
+              if (email) generateError(email);
+              if (password) generateError(password);
+              if (name) generateError(name);
+              if (phone) generateError(phone);
+          }  else if (responseData.message) {
+              generateError(responseData.message);
+          }
+      }
+          // {console.log("errors")}
+          
+          // {console.log("email")}
+          // if (email) generateError(email);
+          // if (password) generateError(password);
+          // if (name) generateError(name);
+          // if (phone) generateError(phone);
+      
+  }
   }
 
 
@@ -75,7 +90,7 @@ export default function LogIn() {
               <form onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="email" className="block mb-2 font-medium text-start text-sm text-gray-600 dark:text-gray-200">Email Address</label>
-                  <input type="email" name="email" id="email" placeholder="example@example.com" value={email} onChange={handleEmailChange} className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                  <input type="email" name="email" id="email" placeholder="example@example.com"  onChange={(e)=> setValues({...values, [e.target.name]:e.target.value})} className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                 </div>
 
                 <div className="mt-6">
@@ -83,7 +98,15 @@ export default function LogIn() {
                     <label htmlFor="password" className="text-sm font-medium text-gray-600 dark:text-gray-200">Password</label>
                   </div>
 
-                  <input type="password" name="password" id="password" placeholder="Your Password" value={password} onChange={handlePasswordChange} className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  />
+
                 </div>
 
                 <div className="mt-6">
@@ -99,6 +122,7 @@ export default function LogIn() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

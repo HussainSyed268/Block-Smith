@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LogIn from './LogIn';
 import logo from "../assests/logo.png";
 import axios from 'axios';
+import {toast, ToastContainer} from 'react-toastify';
 
 
 export default function SignUp(){
+    const navigate = useNavigate();
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -14,23 +16,56 @@ export default function SignUp(){
         confirmPassword: ''
     });
 
+    const generateError = (err) => {
+        toast.error(err, {
+            position: "bottom-right",
+        });
+    }
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try { 
-            const {data} = await axios.post('http://localhost:5000/api/auth/register', {... values});
-            console.log(data);
-            if(data.created){
-                alert('User created successfully');
-            } 
-        } catch (error) {
-            console.log(error);
+            const { data } = await axios.post('http://localhost:4000/api/auth/register', {
+            name: values.name,
+            email: values.email,
+            phone: values.phone,
+            password: values.password,
+            confirmPassword: values.confirmPassword
+        }, {
+            withCredentials: true // Enable sending and receiving cookies
+        });
+        navigate('/login');
+        
+    } catch (error) {
+        {console.log(error)}
+        if (error.response) {
+            const responseData = error.response.data;
+            if (responseData.errors) {
+                const { email, password, name, phone } = responseData.errors;
+                if (email) generateError(email);
+                if (password) generateError(password);
+                if (name) generateError(name);
+                if (phone) generateError(phone);
+            }  else if (responseData.message) {
+                generateError(responseData.message);
+            }
         }
+            // {console.log("errors")}
+            
+            // {console.log("email")}
+            // if (email) generateError(email);
+            // if (password) generateError(password);
+            // if (name) generateError(name);
+            // if (phone) generateError(phone);
+        
+    }
     }
 
 
     return (
-        <section className="bg-white dark:bg-gray-900">
-            <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
+        <section className="bg-transparent ">
+            <div className="container flex  justify-center min-h-screen px-6 mx-auto">
                 <form onSubmit={(e)=> handleSubmit(e)} className="w-full max-w-md">
                     <div className="flex justify-center mx-auto">
                         <img className="w-auto h-7 sm:h-16" src={logo} alt=""/>
@@ -98,9 +133,7 @@ export default function SignUp(){
                             </svg>
                         </span>
 
-                        <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Confirm Password" onChange={(e)=>
-                            setValues({...values, [e.target.name]: e.target.value })
-                        }/>
+                        <input  type="password" name='confirmPassword' className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Confirm Password" onChange={(e)=> setValues({...values, [e.target.name]: e.target.value })} value={values.confirmPassword} />
                     </div>
 
                     <div className="mt-6">
@@ -114,7 +147,9 @@ export default function SignUp(){
                             </a>
                         </div>
                     </div>
+                    
                 </form>
+                <ToastContainer/>
             </div>
         </section>
     );

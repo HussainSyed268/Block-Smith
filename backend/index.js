@@ -16,7 +16,12 @@ mongoose.connect("mongodb+srv://umehmoodbscs21seecs:RYhISqv4MEpak5Eo@cluster0.fd
     console.log("MongoDB Connection Succesful");
 }).catch((err) => console.log(err.message));
 
-app.use(cors());
+app.use(cors(
+    {
+        origin: "http://localhost:3000",
+        credentials: true,
+    }
+));
 
 app.use(cookieParser());
 

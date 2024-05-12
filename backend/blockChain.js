@@ -52,12 +52,11 @@ class Blockchain {
         }
     }
 
-    calculateHash(index, previousHash, timestamp, transactions, nonce) {
+    calculateHash(previousHash, transactions, nonce) {
         const data = previousHash + JSON.stringify(transactions) + nonce;
-        const sha256 = SHA256(data).toString(enc.Hex);
-        console.log(sha256);
-        return sha256;
+        return SHA256(data).toString(enc.Hex);
     }
+    
 
     printChain() {
         for (const block of this.chain) {

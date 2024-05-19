@@ -8,9 +8,12 @@ import ParticleBackground from './ParticleBackground';
 import Networking from './pages/Network';
 import Mining from './pages/Mining';
 import './App.css';
+import UserDashboard from './components/UserDashboard';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+// import Bitcoin from './pages/Bitcoin';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,6 +23,7 @@ import {
 function App() {
   return (
     <>
+
       <ParticleBackground id="particles" />
       <Router>
         <AuthProvider>

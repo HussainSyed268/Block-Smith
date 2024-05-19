@@ -29,8 +29,8 @@ export default function Nav() {
   };
 
   return (
-    <nav className="flex text-gray-300 font-roboto justify-between h-[7rem]">
-      <div className="my-10 mx-14 font-semibold text-base">
+    <nav className="flex text-gray-300 font-roboto justify-between h-[7rem] z-20">
+      <div className="my-10 mx-14 font-semibold text-base z-20">
         <a href="/home" className="px-4 hover:text-red-600 transition-all">Home</a>
         <a href="#" className="px-4 hover:text-red-600 transition-all">Why Blocksmith</a>
         <a href="#" className="px-4 hover:text-red-600 transition-all">Contact Us</a>
@@ -39,7 +39,7 @@ export default function Nav() {
           <a href="/dashboard" className="px-4 hover:text-red-600 transition-all">Dashboard</a>
         )}
       </div>
-      <div className="flex my-10 mx-14 font-semibold text-base relative right-4">
+      <div className="flex my-10 mx-14 font-semibold text-base relative right-4 z-20">
         {isLoggedIn ? (
           <button 
             onClick={handleLogout} 

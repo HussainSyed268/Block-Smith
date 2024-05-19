@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
@@ -8,7 +7,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [cookies, setCookies, removeCookies] = useCookies(['jwtToken']);
   const [user, setUser] = useState(null);
 
   const login = async (email, password) => {
@@ -51,7 +49,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.post('http://localhost:4000/api/auth/logout', {}, { withCredentials: true });
-      removeCookies('jwt');
+      // removeCookies('jwt');
       setUser(null);
       setIsLoggedIn(false);
       navigate('/login');
@@ -60,12 +58,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const token = cookies.jwt;
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, [cookies]);
+  // useEffect(() => {
+  //   const token = cookies.jwt;
+  //   if (token) {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, [cookies]);
 
   const contextValue = {
     isLoggedIn,

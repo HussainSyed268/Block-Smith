@@ -3,7 +3,7 @@ import HomeSection from '../components/HomeSection';
 import Advantages from '../components/Advantages';
 import Bux from '../components/Bux';
 import Works from '../components/Works'
-import {useCookies} from 'react-cookie';
+// import {useCookies} from 'react-cookie';
 import axios from 'axios';
 import Nav from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';

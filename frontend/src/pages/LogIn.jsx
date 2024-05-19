@@ -1,8 +1,5 @@
 import React, { useState,useContext } from 'react';
 import logo from "../assests/logo.png";
-// import { useAuth } from '../auth/AuthProvider';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import {toast, ToastContainer} from 'react-toastify';
 import { AuthContext } from '../auth/AuthProvider';
 

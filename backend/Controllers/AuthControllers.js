@@ -79,7 +79,13 @@ module.exports.register = async (req, res, next) => {
       maxAge: maxAge * 1000,
     });
     console.log(user._id);
-    res.status(201).json({ user: user._id, created: true });
+    const user_details = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone
+    };
+    res.status(201).json({ user: user_details, created: true });
   } catch (err) {
     const errors = handleErrors(err);
     console.log(errors);
@@ -106,10 +112,21 @@ module.exports.login = async (req, res, next) => {
       maxAge: maxAge * 1000,
     });
     console.log(user._id);
-    res.status(200).json({ user: user._id, created: true });
+    const user_details = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone
+    };
+    res.status(200).json({ user: user_details, created: true });
   } catch (err) {
     const errors = handleErrors(err);
     console.log(errors);
     res.status(400).json({ errors, created: false});
   }
 };
+
+module.exports.logout = (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.redirect("/home");
+}

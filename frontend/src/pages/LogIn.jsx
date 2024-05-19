@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import logo from "../assests/logo.png";
 // import { useAuth } from '../auth/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {toast, ToastContainer} from 'react-toastify';
+import { AuthContext } from '../auth/AuthProvider';
 
 
 
 export default function LogIn() {
-  const navigate = useNavigate();
+  
+  const { login } = useContext(AuthContext);
   const [values, setValues] = useState({
       email: '',
       password: '',
@@ -22,61 +24,37 @@ export default function LogIn() {
 
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      try { 
-          const { data } = await axios.post('http://localhost:4000/api/auth/login', {
-          email: values.email,
-          password: values.password,
-      }, {
-          withCredentials: true // Enable sending and receiving cookies
-      });
-      navigate('/home');
-      
-  } catch (error) {
-      {console.log(error)}
+    e.preventDefault();
+    try {
+      await login(values.email, values.password);
+    } catch (error) {
+      console.log(error);
       if (error.response) {
-          const responseData = error.response.data;
-          if (responseData.errors) {
-              const { email, password, name, phone } = responseData.errors;
-              if (email) generateError(email);
-              if (password) generateError(password);
-              if (name) generateError(name);
-              if (phone) generateError(phone);
-          }  else if (responseData.message) {
-              generateError(responseData.message);
-          }
+        const responseData = error.response.data;
+        if (responseData.errors) {
+          const { email, password, name, phone } = responseData.errors;
+          if (email) generateError(email);
+          if (password) generateError(password);
+          if (name) generateError(name);
+          if (phone) generateError(phone);
+        } else if (responseData.message) {
+          generateError(responseData.message);
+        }
+      } else {
+        generateError('An error occurred. Please try again.');
       }
-          // {console.log("errors")}
-          
-          // {console.log("email")}
-          // if (email) generateError(email);
-          // if (password) generateError(password);
-          // if (name) generateError(name);
-          // if (phone) generateError(phone);
-      
-  }
+    }
   }
 
 
   return (
 
-    <div className="bg-white dark:bg-gray-900">
+    <div className="">
       <div className="flex justify-center h-screen">
-        <div className="hidden bg-cover lg:block lg:w-2/3 bg-opacity-50" style={{ backgroundImage: "url(https://images.unsplash.com/photo-1629339941379-da30348cdba6?auto=format&fit=crop&w=1470&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)" }}>
-          <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-60">
-            <div className='relative left-36'>
-              <h2 className=" text-4xl font-bold text-white sm:text-3xl">BlockSmith</h2>
+          
+  
 
-              <p className="max-w-xl text-base text-white">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
-                autem ipsa, nulla laboriosam dolores, repellendus perferendis libero suscipit nam temporibus
-                molestiae
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+        <div className="flex items-center w-full h-2/3 max-w-md px-6 mx-auto lg:w-2/6">
           <div className="flex-1">
             <div className="text-center">
               <div className="flex justify-center mx-auto">
@@ -117,7 +95,7 @@ export default function LogIn() {
 
               </form>
 
-              <p className="mt-6 text-sm text-center text-gray-400">Don't have an account yet? <a href="#" className="text-blue-500 focus:outline-none focus:underline hover:underline">Sign up</a>.</p>
+              <p className="mt-6 text-sm text-center text-gray-400">Don't have an account yet? <a href="/signup" className="text-blue-500 focus:outline-none focus:underline hover:underline">Sign up</a>.</p>
             </div>
           </div>
         </div>

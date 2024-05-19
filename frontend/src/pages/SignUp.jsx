@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LogIn from './LogIn';
 import logo from "../assests/logo.png";
 import axios from 'axios';
+import { AuthContext } from '../auth/AuthProvider';
 import {toast, ToastContainer} from 'react-toastify';
 
 
 export default function SignUp(){
-    const navigate = useNavigate();
+    const {signup} = useContext(AuthContext);
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -25,19 +26,10 @@ export default function SignUp(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try { 
-            const { data } = await axios.post('http://localhost:4000/api/auth/register', {
-            name: values.name,
-            email: values.email,
-            phone: values.phone,
-            password: values.password,
-            confirmPassword: values.confirmPassword
-        }, {
-            withCredentials: true // Enable sending and receiving cookies
-        });
-        navigate('/login');
-        
-    } catch (error) {
+        try{
+            await signup(values.name, values.phone, values.email, values.password, values.confirmPassword);
+        }
+        catch (error) {
         {console.log(error)}
         if (error.response) {
             const responseData = error.response.data;
@@ -50,6 +42,8 @@ export default function SignUp(){
             }  else if (responseData.message) {
                 generateError(responseData.message);
             }
+        }   else {
+            generateError('An error occurred. Please try again.');
         }
             // {console.log("errors")}
             

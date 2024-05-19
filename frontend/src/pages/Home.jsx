@@ -10,24 +10,19 @@ import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [cookies, setCookies, removeCookies] = useCookies([]);
-  useEffect(() => {
-    const verifyUser = async () => {
-      if(!cookies.jwt) {
-        navigate('/login');
-      } else {
-        const data = await axios.get('http://localhost:4000/api/auth/home', {}, {
-          withCredentials: true
-        });
-      if(!data.status){
-        removeCookies('jwt');
-        navigate('/login');
-      };
-      
-
-      }; verifyUser();
+  const fetchToken = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/auth/token', {
+        withCredentials: true,
+      });
+      if (response.data.token) {
+        navigate('/home');
+      }
+    } catch (error) {
+      navigate('/login');
     }
-  }, [cookies, navigate]);
+  };
+
   return (
     <div>
       <HomeSection />

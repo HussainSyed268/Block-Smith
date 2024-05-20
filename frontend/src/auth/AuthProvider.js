@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [isMining, setIsMining] = useState(false);
 
   const login = async (email, password) => {
     try {
@@ -58,6 +59,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const startMining = () => {
+    setIsMining(true);
+    setTimeout(() => {
+      setIsMining(false);
+    }, 5000);
+  };
+
   // useEffect(() => {
   //   const token = cookies.jwt;
   //   if (token) {
@@ -72,6 +80,8 @@ export const AuthProvider = ({ children }) => {
     signup,
     logout,
     setIsLoggedIn, // Expose this to update state directly
+    isMining,
+    setIsMining,
   };
 
   return (

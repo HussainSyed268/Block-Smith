@@ -5,7 +5,12 @@ import CarouselWithButtons from './Carousel';
 import '../css/block.css';
 
 const BlockchainComponent = () => {
-  const [blocks, setBlocks] = useState([<Block key={1} index={1} />]); // Initial block
+  const [blocks, setBlocks] = useState([
+  <Block key={1} index={1} />,
+  <Block key={2} index={2} />,
+  <Block key={3} index={3} />,
+
+]); // Initial block
 
   const addBlock = () => {
     const newIndex = blocks.length + 1;

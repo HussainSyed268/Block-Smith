@@ -1,5 +1,6 @@
 import React from "react";
 import illustration from "../assests/home/file.png";
+import CarouselWithButtons from "./Carousel";
 
 export default function HomeSection() {
     return(
@@ -27,6 +28,7 @@ export default function HomeSection() {
                         </svg></a>
                     </div>
         </div>
+
         </>
     )
 

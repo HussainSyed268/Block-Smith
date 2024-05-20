@@ -13,24 +13,27 @@
     "@testing-library/user-event": "^13.5.0",
     "@tsparticles/all": "^3.3.0",
     "@tsparticles/react": "^3.0.0",
-
     "@vx/event": "^0.0.199",
     "@vx/vx": "^0.0.199",
-
     "axios": "^1.6.8",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.2.4",
     "js-cookie": "^3.0.5",
-
     "react": "^18.3.1",
     "react-cookie": "^7.1.4",
     "react-dom": "^18.3.1",
     "react-icons": "^5.2.0",
+    "react-multi-carousel": "^2.8.5",
     "react-particles": "^2.12.2",
     "react-player": "^2.16.0",
     "react-router-dom": "^6.23.0",
     "react-scripts": "^5.0.1",
+    "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.5",
     "react-vis-network-graph": "^3.0.1",
     "recoil": "^0.7.7",
+    "simplex-noise": "^4.0.1",
+    "tailwind-merge": "^2.3.0",
     "vx": "^0.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -59,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "daisyui": "^4.11.1",
     "tailwindcss": "^3.4.3"
   }
 }

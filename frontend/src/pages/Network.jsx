@@ -1,37 +1,40 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Network from "react-vis-network-graph";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import server from "../assests/server.png"
-import node from "../assests/lcd.png"
+import server from "../assests/server.png";
+import node from "../assests/lcd.png";
 
 const Networking = () => {
   const graphRef = useRef(null);
   const [datas, setDatas] = useState("--");
   const [data, setData] = useState({
-    nodes: [{ id: "Server", label: "Server", color: "green", shape: "image",image:server }],
-    edges: []
+    nodes: [
+      { id: "Server", label: "Server", color: "green", shape: "image", image: server },
+      { id: "Node_1", label: "Node 1", color: "blue", shape: "image", image: node },
+      { id: "Node_2", label: "Node 2", color: "blue", shape: "image", image: node },
+      { id: "Node_3", label: "Node 3", color: "blue", shape: "image", image: node },
+      { id: "Node_4", label: "Node 4", color: "blue", shape: "image", image: node }
+    ],
+    edges: [
+      { from: "Server", to: "Node_1" },
+      { from: "Server", to: "Node_2" },
+      { from: "Server", to: "Node_3" },
+      { from: "Server", to: "Node_4" }
+    ]
   });
 
-  const addNode = () => {
-    const newNodeId = `Node_${data.nodes.length + 1}`;
-    setData({
-      nodes: [
-        ...data.nodes,
-        { id: newNodeId, label: newNodeId, color: "blue", shape: "image",image:node }
-      ],
-      edges: [...data.edges, { from: "Server", to: newNodeId }]
-    });
-  };
+  useEffect(() => {
+    // Logic to ensure the component updates with the initial set of nodes and edges.
+    setData((prevData) => ({
+      ...prevData,
+      nodes: prevData.nodes,
+      edges: prevData.edges
+    }));
+  }, []);
 
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={addNode}>
-            Add Node
-          </Button>
-        </Grid>
         <Grid item xs={12}>
           <Network
             graph={data}
@@ -49,19 +52,17 @@ const Networking = () => {
                   type: "continuous"
                 },
                 color: {
-                  color: "white",
-                  highlight: "white",
-                  hover: "white",
+                  color: "black",
+                  highlight: "black",
+                  hover: "black",
                   inherit: false
                 }
               },
               nodes: {
                 font: {
-                  color: "white"
+                  color: "black"
                 }
               },
-
-
               physics: {
                 enabled: false,
                 hierarchicalRepulsion: {

@@ -3,8 +3,6 @@ import logo from "../assests/logo.png";
 import {toast, ToastContainer} from 'react-toastify';
 import { AuthContext } from '../auth/AuthProvider';
 
-
-
 export default function LogIn() {
   
   const { login } = useContext(AuthContext);
